@@ -14,13 +14,12 @@
    OFBIZ_OLAP_DB: "ofbizolap"
    OFBIZ_TENANT_DB: "ofbiztentant"   
 ```   
-2. Be sure POSTGRES_USER, POSTGRES_PASSWORD, OFBIZ_DB, OFBIZ_OLAP_DB and OFBIZ_TENANT_DB are same both in ofbiz and postgresql block.
-3. Start everything running:
+2. Start everything running:
 ```
     docker-compose up -d 
 ```    
-4. Wait a bit and then you can access everything from the domain you provided in parameters. By default it redirects to SSL.
-5. Postgresql is persisting data in volume pgdata. Of course a proper backup policy for DB is needed
+3. Wait a bit and then you can access everything from the domain you provided in parameters. By default it redirects to SSL.
+4. Postgresql is persisting data in volume pgdata. Of course a proper backup policy for DB is needed
 
 ### Visit OFBiz through your browser:
 

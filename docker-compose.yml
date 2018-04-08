@@ -94,10 +94,6 @@ services:
         depends_on:
            - postgresql
            - nginx_letsencrypt_companion
-        
-        # Configure Environment Variables
-        env_file:
-           - ./config.env
         environment:
           DEFAULT_HOST: ${ENV_DEFUALT_HOST}
           VIRTUAL_HOST: ${ENV_VIRTUAL_HOST}
@@ -114,16 +110,14 @@ services:
     postgresql:
         container_name: postgresql
         build: postgres
-
-        # Configure Environment Variables
-        env_file:
-           - ./config.env
         environment:
             POSTGRES_USER: ${ENV_POSTGRES_USER}
             POSTGRES_PASSWORD: ${ENV_POSTGRES_PASSWORD}
             OFBIZ_DB: ${ENV_OFBIZ_DB}
             OFBIZ_OLAP_DB: ${ENV_OFBIZ_OLAP_DB}
             OFBIZ_TENANT_DB: ${ENV_OFBIZ_TENANT_DB}
+        ports:
+            - 5432:5432
         volumes:
             - pgdata:/var/lib/postgresql/data
         restart: always
