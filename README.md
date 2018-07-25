@@ -2,13 +2,13 @@
 
 ### Quickstart ###
 
-1.  $ git clone https://github.com//blockfreight/ofbiz-erp.git .
+1.  $ git clone https://github.com/blockfreight/ofbiz-erp.git .
 
 2. Edit environment variables in the file .env with right parameters according your needs:
 ```  
-   DEFAULT_HOST: "erp.blockfreight.com"
-   VIRTUAL_HOST: "erp.blockfreight.com"
-   LETSENCRYPT_HOST: "erp.blockfreight.com"
+   DEFAULT_HOST: "127.0.0.1"
+   VIRTUAL_HOST: "127.0.0.1"
+   LETSENCRYPT_HOST: "127.0.0.1"
    LETSENCRYPT_EMAIL: "SET_AN_EMAIL_TO_GET_LETS_ENCRYPT_WARNINGS"
    POSTGRES_USER: "ofbiz"
    POSTGRES_PASSWORD: "ofbiz"
