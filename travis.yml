@@ -1,6 +1,6 @@
 language: java
 before_install:
-  # Setup Gradle
+  # Setup Gradle first.
   - gradle assemble
 script:
   - git clone https://github.com/blockfreight/ofbiz-erp.git .
