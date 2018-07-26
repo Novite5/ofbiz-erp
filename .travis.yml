@@ -1,5 +1,7 @@
 language: java
 before_install:
+  - mkdir ~/ofbiz
+  - cd ~/ofbiz
   - git clone https://github.com/blockfreight/ofbiz-erp.git .
 install:
   - docker-compose up -d
