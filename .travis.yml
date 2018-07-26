@@ -1,7 +1,5 @@
 language: java
 before_install:
-  # Setup Gradle first.
-  - gradle assemble
   - git clone https://github.com/blockfreight/ofbiz-erp.git .
 install:
   - docker-compose up -d
