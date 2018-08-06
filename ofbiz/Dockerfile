@@ -59,7 +59,7 @@ RUN chmod a+x /init.sh && \
     export DEBIAN_FRONTEND=noninteractive  && \
     apt update -y && apt upgrade -y && \
     # Update package manager and update default applications.
-    apt install -y software-properties-common python-software-properties wget unzip net-tools && \
+    apt install -y git software-properties-common python-software-properties wget unzip net-tools && \
     add-apt-repository -y ppa:webupd8team/java && apt update -y && apt upgrade -y && \
     apt install -y oracle-java8-installer && \
     echo "export JAVA_HOME=/usr/lib/jvm/java-8-oracle" >> ~/.bashrc && \
@@ -72,6 +72,11 @@ RUN sed -i 's/no.http=Y/no.http=N/' apache-ofbiz-16.11.04/framework/webapp/confi
     sed -i 's/port.https.enabled=Y/port.https.enabled=N/' apache-ofbiz-16.11.04/framework/webapp/config/url.properties && \
     sed -i 's/force.https.host=/force.https.host=N/' apache-ofbiz-16.11.04/framework/webapp/config/url.properties && \
     sed -i 's/force.http.host=/force.http.host=Y/' apache-ofbiz-16.11.04/framework/webapp/config/url.properties
+
+# Add Blockfreight custom components to Ofbiz.
+RUN git clone https://github.com/blockfreight/ofbiz-erp-components.git && \
+    cp -r ofbiz-erp-components/humanres apache-ofbiz-16.11.04/specialpurpose && \
+    cp -rofbiz-erp-components/component-load.xml apache-ofbiz-16.11.04/specialpurpose
 
 # Install the reference implementation of OFBiz
 WORKDIR apache-ofbiz-16.11.04
