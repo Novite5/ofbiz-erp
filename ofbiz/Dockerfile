@@ -74,9 +74,9 @@ RUN sed -i 's/no.http=Y/no.http=N/' apache-ofbiz-16.11.04/framework/webapp/confi
     sed -i 's/force.http.host=/force.http.host=Y/' apache-ofbiz-16.11.04/framework/webapp/config/url.properties
 
 # Add Blockfreight custom components to Ofbiz.
-RUN git clone https://github.com/blockfreight/ofbiz-erp-components.git && \
-    cp -r ofbiz-erp-components/humanres apache-ofbiz-16.11.04/specialpurpose && \
-    cp -rofbiz-erp-components/component-load.xml apache-ofbiz-16.11.04/specialpurpose
+# RUN git clone https://github.com/blockfreight/ofbiz-erp-components.git && \
+#     cp -r ofbiz-erp-components/humanres apache-ofbiz-16.11.04/specialpurpose && \
+#     cp -rofbiz-erp-components/component-load.xml apache-ofbiz-16.11.04/specialpurpose
 
 # Install the reference implementation of OFBiz
 WORKDIR apache-ofbiz-16.11.04
