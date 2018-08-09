@@ -3,7 +3,7 @@ set -xe
 
 if [ $TRAVIS_BRANCH == 'master' ] ; then
   eval "$(ssh-agent -s)"
-  ssh-add ENV_DEPLOY_KEY
+  ssh-add ~/.ssh/ENV_DEPLOY_KEY
 
   cd public
   git init
