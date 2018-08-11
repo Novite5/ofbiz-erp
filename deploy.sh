@@ -1,20 +1,19 @@
 #!/bin/bash
 set -xe
 
-if [ $TRAVIS_BRANCH == 'master' ] ; then
-  eval "$(ssh-agent -s)"
-  ssh-add ~/.ssh/ENV_DEPLOY_KEY
+if [ $TRAVIS_BRANCH == 'ci-cd' ] ; then
 
-  cd public
-  git init
+ssh -oStrictHostKeyChecking=no $BLOCKFREIGHT_SSH_USER@$DROPLET_IP_ADDRESS "\
+sudo docker compose down;\
+rm -rf ~/ofbiz;\
+mkdir ~/ofbiz;\
+cd ~/ofbiz;\
+git clone https://github.com/blockfreight/ofbiz-erp.git .;\
+sudo docker-compose up -d" <<-'ENDSSH'
 
-  git remote add deploy "deploy@$ENV_VIRTUAL_HOST:~/ofbiz"
-  git config user.name "deploy"
-  git config user.email "$ENV_LETSENCRYPT_EMAIL"
-
-  git add .
-  git commit -m "Deploy"
-  git push --force deploy master
+ENDSSH
+# sudo docker rmi ofbiz-erp_ofbiz;\
+# sudo docker-compose --build
 else
   echo "Not deploying, since this branch isn't master."
 fi
