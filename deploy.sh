@@ -3,7 +3,7 @@ set -xe
 
 if [ $TRAVIS_BRANCH == 'ci-cd' ] ; then
 
-ssh -oStrictHostKeyChecking=no $BLOCKFREIGHT_SSH_USER@$DROPLET_IP_ADDRESS "\
+ssh -oStrictHostKeyChecking=no $BLOCKFREIGHT_SSH_USER@$ENV_VIRTUAL_HOST "\
 sudo docker compose down;\
 sudo docker rmi ofbiz-erp_ofbiz;\
 rm -rf ~/ofbiz;\
