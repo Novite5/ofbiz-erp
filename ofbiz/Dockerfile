@@ -51,10 +51,10 @@ FROM  ubuntu:16.04
 #  and provides some useful functions to work with the BF_TX token ecosystem.
 MAINTAINER Julian Smith <julian.smith@blockfreight.com>
 
-COPY init.sh /
+# COPY init.sh /
 
-RUN chmod a+x /init.sh && \
-    echo "debconf shared/accepted-oracle-license-v1-1 select true" | debconf-set-selections && \
+# RUN chmod a+x /init.sh && \
+RUN echo "debconf shared/accepted-oracle-license-v1-1 select true" | debconf-set-selections && \
     echo "debconf shared/accepted-oracle-license-v1-1 seen true" | debconf-set-selections && \
     export DEBIAN_FRONTEND=noninteractive  && \
     apt update -y && apt upgrade -y && \
@@ -71,8 +71,12 @@ RUN chmod a+x /init.sh && \
 RUN sed -i 's/no.http=Y/no.http=N/' apache-ofbiz-16.11.04/framework/webapp/config/url.properties && \
     sed -i 's/port.https.enabled=Y/port.https.enabled=N/' apache-ofbiz-16.11.04/framework/webapp/config/url.properties && \
     sed -i 's/force.https.host=/force.https.host=N/' apache-ofbiz-16.11.04/framework/webapp/config/url.properties && \
-    sed -i 's/force.http.host=/force.http.host=Y/' apache-ofbiz-16.11.04/framework/webapp/config/url.properties
-
+    sed -i 's/force.http.host=/force.http.host=Y/' apache-ofbiz-16.11.04/framework/webapp/config/url.properties && \
+    sed -i 's/__OFBIZ_DB__/'"$OFBIZ_DB"'/' framework/entity/config/entityengine.xml && \
+    sed -i 's/__OFBIZ_OLAP_DB__/'"$OFBIZ_OLAP_DB"'/' framework/entity/config/entityengine.xml && \
+    sed -i 's/__OFBIZ_TENANT_DB__/'"$OFBIZ_TENANT_DB"'/' framework/entity/config/entityengine.xml && \
+    sed -i 's/__POSTGRES_USER__/'"$POSTGRES_USER"'/' framework/entity/config/entityengine.xml && \
+    sed -i 's/__POSTGRES_PASSWORD__/'"$POSTGRES_PASSWORD"'/' framework/entity/config/entityengine.xml
 # Add Blockfreight custom components to Ofbiz.
 # RUN git clone https://github.com/blockfreight/ofbiz-erp-components.git && \
 #     cp -r ofbiz-erp-components/humanres apache-ofbiz-16.11.04/specialpurpose && \
@@ -86,4 +90,5 @@ COPY entityengine.xml framework/entity/config
 
 EXPOSE 8080
 
-CMD /init.sh
+# CMD /init.sh
+CMD ./gradlew "ofbiz --load-data readers=seed,seed-initial" loadAdminUserLogin -PuserLoginId=admin && ./gradlew ofbiz
