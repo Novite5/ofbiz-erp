@@ -10,7 +10,7 @@ rm -rf ~/ofbiz;\
 mkdir ~/ofbiz;\
 cd ~/ofbiz;\
 git clone https://github.com/blockfreight/ofbiz-erp.git .;\
-sudo docker-compose up -d" <<-'ENDSSH'
+sudo docker-compose pull && docker-compose up -d" <<-'ENDSSH'
 
 ENDSSH
 # sudo docker rmi ofbiz-erp_ofbiz;\
