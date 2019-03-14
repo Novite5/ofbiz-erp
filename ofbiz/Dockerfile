@@ -65,7 +65,7 @@ RUN chmod a+x /init.sh && \
     # apt install -y oracle-java8-installer && \
     # echo "export JAVA_HOME=/usr/lib/jvm/java-8-oracle" >> ~/.bashrc && \
     # /bin/bash -c "source ~/.bashrc" && \
-    apk add git wget unzip net-tools
+    apk add --no-cache git wget unzip net-tools && \
     # Install the reference implementation of OFBiz
     wget -O apache-ofbiz.zip http://mirror.navercorp.com/apache/ofbiz/apache-ofbiz-16.11.05.zip && \
     unzip apache-ofbiz.zip -d apache-ofbiz && rm apache-ofbiz.zip
