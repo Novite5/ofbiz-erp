@@ -68,7 +68,7 @@ RUN chmod a+x /init.sh && \
     apk add --no-cache git wget unzip net-tools && \
     # Install the reference implementation of OFBiz
     wget -O apache-ofbiz.zip http://mirror.navercorp.com/apache/ofbiz/apache-ofbiz-16.11.05.zip && \
-    unzip apache-ofbiz.zip && rm apache-ofbiz.zip
+    unzip apache-ofbiz.zip && mv apache-ofbiz-16.11.05 apache-ofbiz && rm apache-ofbiz.zip
 
 RUN sed -i 's/no.http=Y/no.http=N/' apache-ofbiz/framework/webapp/config/url.properties && \
     sed -i 's/port.https.enabled=Y/port.https.enabled=N/' apache-ofbiz/framework/webapp/config/url.properties && \
