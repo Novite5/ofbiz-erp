@@ -45,7 +45,8 @@
 #  =================================================================================================================================================
 
 # Use an official Ubuntu 16.04 Debian-based Linux operating system release as a parent image.
-FROM  ubuntu:16.04
+# FROM  ubuntu:16.04
+FROM openjdk:8-jdk-alpine
 
 #  Package Dockerfile is a package that defines the Blockfreight, Inc. - OFBiz (ERP) Docker Image
 #  and provides some useful functions to work with the BF_TX token ecosystem.
@@ -54,32 +55,33 @@ MAINTAINER Julian Smith <julian.smith@blockfreight.com>
 COPY init.sh /
 
 RUN chmod a+x /init.sh && \
-    echo "debconf shared/accepted-oracle-license-v1-1 select true" | debconf-set-selections && \
-    echo "debconf shared/accepted-oracle-license-v1-1 seen true" | debconf-set-selections && \
-    export DEBIAN_FRONTEND=noninteractive  && \
-    apt update -y && apt upgrade -y && \
-    # Update package manager and update default applications.
-    apt install -y git software-properties-common python-software-properties wget unzip net-tools && \
-    add-apt-repository -y ppa:webupd8team/java && apt update -y && apt upgrade -y && \
-    apt install -y oracle-java8-installer && \
-    echo "export JAVA_HOME=/usr/lib/jvm/java-8-oracle" >> ~/.bashrc && \
-    /bin/bash -c "source ~/.bashrc" && \
+    # echo "debconf shared/accepted-oracle-license-v1-1 select true" | debconf-set-selections && \
+    # echo "debconf shared/accepted-oracle-license-v1-1 seen true" | debconf-set-selections && \
+    # export DEBIAN_FRONTEND=noninteractive  && \
+    # apt update -y && apt upgrade -y && \
+    # # Update package manager and update default applications.
+    # apt install -y git software-properties-common python-software-properties wget unzip net-tools && \
+    # add-apt-repository -y ppa:webupd8team/java && apt update -y && apt upgrade -y && \
+    # apt install -y oracle-java8-installer && \
+    # echo "export JAVA_HOME=/usr/lib/jvm/java-8-oracle" >> ~/.bashrc && \
+    # /bin/bash -c "source ~/.bashrc" && \
+    apk add git wget unzip net-tools
     # Install the reference implementation of OFBiz
-    wget http://mirror.dsrg.utoronto.ca/apache/ofbiz/apache-ofbiz-16.11.04.zip && \
-    unzip apache-ofbiz-16.11.04.zip && rm apache-ofbiz-16.11.04.zip
+    wget -O apache-ofbiz.zip http://mirror.navercorp.com/apache/ofbiz/apache-ofbiz-16.11.05.zip && \
+    unzip apache-ofbiz.zip -d apache-ofbiz && rm apache-ofbiz.zip
 
-RUN sed -i 's/no.http=Y/no.http=N/' apache-ofbiz-16.11.04/framework/webapp/config/url.properties && \
-    sed -i 's/port.https.enabled=Y/port.https.enabled=N/' apache-ofbiz-16.11.04/framework/webapp/config/url.properties && \
-    sed -i 's/force.https.host=/force.https.host=N/' apache-ofbiz-16.11.04/framework/webapp/config/url.properties && \
-    sed -i 's/force.http.host=/force.http.host=Y/' apache-ofbiz-16.11.04/framework/webapp/config/url.properties
+RUN sed -i 's/no.http=Y/no.http=N/' apache-ofbiz/framework/webapp/config/url.properties && \
+    sed -i 's/port.https.enabled=Y/port.https.enabled=N/' apache-ofbiz/framework/webapp/config/url.properties && \
+    sed -i 's/force.https.host=/force.https.host=N/' apache-ofbiz/framework/webapp/config/url.properties && \
+    sed -i 's/force.http.host=/force.http.host=Y/' apache-ofbiz/framework/webapp/config/url.properties
 
 # Add Blockfreight custom components to Ofbiz.
 # RUN git clone https://github.com/blockfreight/ofbiz-erp-components.git && \
 #     cp -r ofbiz-erp-components/humanres apache-ofbiz-16.11.04/specialpurpose && \
-#     cp -rofbiz-erp-components/component-load.xml apache-ofbiz-16.11.04/specialpurpose
+#     cp -r ofbiz-erp-components/component-load.xml apache-ofbiz-16.11.04/specialpurpose
 
 # Install the reference implementation of OFBiz
-WORKDIR apache-ofbiz-16.11.04
+WORKDIR apache-ofbiz
 
 COPY build.gradle build.gradle
 COPY entityengine.xml framework/entity/config
